@@ -34,9 +34,6 @@ public class UserRepository {
     }
 
     public List<egovUser> search(UserSearchCriteria criteria) {
-        // Select the schema based on the active status of the user
-
-        // Build the SQL query based on the search criteria
         StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM egov_user WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
