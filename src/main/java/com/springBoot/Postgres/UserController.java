@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping("/search")
     public List<egovUser> searchUsers(@RequestBody UserSearchCriteria criteria) {
         return userRepository.search(criteria);
-//        return null;
+
     }
 
     @PutMapping("/update")
