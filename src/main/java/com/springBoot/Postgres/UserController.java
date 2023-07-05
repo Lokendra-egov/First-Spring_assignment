@@ -10,6 +10,8 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private AddressApiService addressApiService;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -17,7 +19,7 @@ public class UserController {
 
     @PostMapping("create")
     public void createUser(@RequestBody List<egovUser> egovUsers) {
-
+        System.out.println("111111111111111111");
         for (egovUser egovUser : egovUsers) {
             if (isDuplicateUser(egovUser)) {
                 System.out.println("This user already exists: " + egovUser.getName() + " - " + egovUser.getMobileNumber());
@@ -25,7 +27,9 @@ public class UserController {
             }
             UUID id = UUID.randomUUID();
             egovUser.setId(id);
-            userRepository.create(egovUser);
+            String address = addressApiService.getAddressFromApi();
+
+            userRepository.create(egovUser,address);
         }
     }
 

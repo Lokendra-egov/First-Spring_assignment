@@ -7,21 +7,19 @@ public class egovUser {
     private String name;
     private String gender;
     private String mobileNumber;
-    private String address;
     private boolean active;
     private long createdTime;
+    private Address address;
 
-
-    public egovUser(UUID id, String name, String gender, String mobileNumber,String address, boolean active, long createdTime) {
+    public egovUser(UUID id, String name, String gender, String mobileNumber, boolean active, long createdTime, Address address) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.mobileNumber = mobileNumber;
-        this.address = address;
         this.active = active;
         this.createdTime = createdTime;
+        this.address = address;
     }
-
     public UUID getId() {
         return id;
     }
@@ -55,11 +53,11 @@ public class egovUser {
     }
 
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

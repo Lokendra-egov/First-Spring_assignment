@@ -22,18 +22,18 @@ public class UserRepository {
     @PostConstruct
     public void createTable() {
         jdbcTemplate.execute(
-                "CREATE TABLE IF NOT EXISTS egov_user (id UUID, name VARCHAR(255), gender VARCHAR(255), mobile_number VARCHAR(255), address VARCHAR(255), active BOOLEAN, created_time BIGINT, PRIMARY KEY (id, active)) PARTITION BY LIST (active);");
+                "CREATE TABLE IF NOT EXISTS egov_user (id UUID, name VARCHAR(255), gender VARCHAR(255), mobile_number VARCHAR(255), address JSON, active BOOLEAN, created_time BIGINT, PRIMARY KEY (id, active)) PARTITION BY LIST (active);");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS egov_active_user PARTITION OF egov_user FOR VALUES IN (TRUE);");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS egov_inactive_user PARTITION OF egov_user FOR VALUES IN (FALSE);");
     }
-    public void create(egovUser egovUser) {
+    public void create(egovUser egovUser,String address) {
         Long x = System.currentTimeMillis();
         egovUser.setCreatedTime(x);
 
         String sql = "INSERT INTO egov_user (id, name, gender, mobile_number, address, active, created_time) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?::json, ?, ?)";
        jdbcTemplate.update(sql,egovUser.getId(), egovUser.getName(), egovUser.getGender(), egovUser.getMobileNumber(),
-                egovUser.getAddress(), egovUser.isActive(), egovUser.getCreatedTime());
+                address, egovUser.isActive(), egovUser.getCreatedTime());
     }
     public List<egovUser> search(UserSearchCriteria criteria) {
         StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM egov_user WHERE 1=1");
