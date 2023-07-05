@@ -1,27 +1,32 @@
 package com.springBoot.Postgres;
 
+import java.util.UUID;
+
 public class egovUser {
-    private Long id;
+    private UUID id;
     private String name;
     private String gender;
     private String mobileNumber;
     private String address;
     private boolean active;
+    private long createdTime;
 
-    public egovUser(Long id, String name, String gender, String mobileNumber, String address, boolean active) {
+
+    public egovUser(UUID id, String name, String gender, String mobileNumber,String address, boolean active, long createdTime) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.mobileNumber = mobileNumber;
         this.address = address;
         this.active = active;
+        this.createdTime = createdTime;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -49,6 +54,7 @@ public class egovUser {
         this.mobileNumber = mobileNumber;
     }
 
+
     public String getAddress() {
         return address;
     }
@@ -63,6 +69,14 @@ public class egovUser {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public long getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(long createdTime) {
+        this.createdTime = createdTime;
     }
 }
 

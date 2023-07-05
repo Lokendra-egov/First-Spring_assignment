@@ -1,35 +1,59 @@
 package com.springBoot.Postgres;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/")
 public class UserController {
-    private UserRepository userRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/create")
-    public void createUser(@RequestBody egovUser egovUser) {
-        userRepository.create(egovUser);
+    @PostMapping("create")
+    public void createUser(@RequestBody List<egovUser> egovUsers) {
+
+        for (egovUser egovUser : egovUsers) {
+            if (isDuplicateUser(egovUser)) {
+                System.out.println("This user already exists: " + egovUser.getName() + " - " + egovUser.getMobileNumber());
+                continue;
+            }
+            UUID id = UUID.randomUUID();
+            egovUser.setId(id);
+            userRepository.create(egovUser);
+        }
     }
 
-    @GetMapping("/search")
+    private boolean isDuplicateUser(egovUser newUser) {
+        UserSearchCriteria criteria = new UserSearchCriteria(null, newUser.getMobileNumber(), true);
+        List<egovUser> existingUsers = userRepository.search(criteria);
+
+        for (egovUser existingUser : existingUsers) {
+            if (existingUser.getName().equals(newUser.getName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @PostMapping("search")
     public List<egovUser> searchUsers(@RequestBody UserSearchCriteria criteria) {
         return userRepository.search(criteria);
-//        return null;
     }
 
-    @PutMapping("/update")
-    public void updateUser(@RequestBody egovUser egovUser) {
-        userRepository.update(egovUser);
+    public void updateUser(@RequestBody List<egovUser> egovUsers) {
+        for (egovUser egovUser : egovUsers) {
+            userRepository.update(egovUser);
+        }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("delete")
     public void deleteUser(@RequestBody egovUser egovUser) {
         userRepository.delete(egovUser);
     }
