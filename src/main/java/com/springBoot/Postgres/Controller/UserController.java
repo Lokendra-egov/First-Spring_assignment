@@ -1,10 +1,15 @@
 package com.springBoot.Postgres.Controller;
 import com.springBoot.Postgres.Address.AddressApiService;
+import com.springBoot.Postgres.Kafka.KafkaProducerConfig;
 import com.springBoot.Postgres.Repository.UserRepository;
 import com.springBoot.Postgres.User.UserSearchCriteria;
 import com.springBoot.Postgres.User.egovUser;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
+import org.apache.kafka.clients.producer.Producer;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +21,14 @@ public class UserController {
     private final UserRepository userRepository;
     @Autowired
     private AddressApiService addressApiService;
+    @Autowired
+    KafkaProducerConfig producer;
+
+    @GetMapping("producerMsg")
+    public void getMessageFromClient(@RequestParam("message") String message){
+        KafkaProducerConfig.sendMsgToTopic(message);
+    }
+
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -23,7 +36,6 @@ public class UserController {
 
     @PostMapping("create")
     public void createUser(@RequestBody List<egovUser> egovUsers) {
-        System.out.println("111111111111111111");
         for (egovUser egovUser : egovUsers) {
             if (isDuplicateUser(egovUser)) {
                 System.out.println("This user already exists: " + egovUser.getName() + " - " + egovUser.getMobileNumber());
