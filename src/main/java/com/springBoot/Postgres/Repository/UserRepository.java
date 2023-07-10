@@ -1,8 +1,10 @@
-package com.springBoot.Postgres;
+package com.springBoot.Postgres.Repository;
 
 
+import com.springBoot.Postgres.User.UserSearchCriteria;
+import com.springBoot.Postgres.User.egovUser;
+import com.springBoot.Postgres.Mapper.egovUserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +28,7 @@ public class UserRepository {
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS egov_active_user PARTITION OF egov_user FOR VALUES IN (TRUE);");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS egov_inactive_user PARTITION OF egov_user FOR VALUES IN (FALSE);");
     }
-    public void create(egovUser egovUser,String address) {
+    public void create(egovUser egovUser, String address) {
         Long x = System.currentTimeMillis();
         egovUser.setCreatedTime(x);
 

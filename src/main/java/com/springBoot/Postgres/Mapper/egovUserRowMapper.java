@@ -1,6 +1,8 @@
-package com.springBoot.Postgres;
+package com.springBoot.Postgres.Mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springBoot.Postgres.Address.Address;
+import com.springBoot.Postgres.User.egovUser;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.IOException;

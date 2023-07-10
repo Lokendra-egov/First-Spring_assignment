@@ -1,4 +1,6 @@
-package com.springBoot.Postgres;
+package com.springBoot.Postgres.User;
+
+import com.springBoot.Postgres.Address.Address;
 
 import java.util.UUID;
 

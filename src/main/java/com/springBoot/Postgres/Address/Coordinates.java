@@ -1,4 +1,4 @@
-package com.springBoot.Postgres;
+package com.springBoot.Postgres.Address;
 
 public class Coordinates {
     private double lat;

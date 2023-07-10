@@ -1,4 +1,4 @@
-package com.springBoot.Postgres;
+package com.springBoot.Postgres.User;
 
 public class UserSearchCriteria {
     private Long id;
