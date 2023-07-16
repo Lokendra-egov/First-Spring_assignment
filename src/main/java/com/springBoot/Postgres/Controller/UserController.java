@@ -1,4 +1,5 @@
 package com.springBoot.Postgres.Controller;
+import com.springBoot.Postgres.Address.Address;
 import com.springBoot.Postgres.Address.AddressApiService;
 import com.springBoot.Postgres.Kafka.KafkaProducerConfig;
 import com.springBoot.Postgres.Repository.UserRepository;
@@ -22,16 +23,17 @@ public class UserController {
     @Autowired
     private AddressApiService addressApiService;
     @Autowired
-    KafkaProducerConfig producer;
+    private KafkaProducerConfig producer;
 
-    @GetMapping("producerMsg")
-    public void getMessageFromClient(@RequestParam("message") String message){
-        KafkaProducerConfig.sendMsgToTopic(message);
+    public UserController(UserRepository userRepository, AddressApiService addressApiService, KafkaProducerConfig producer) {
+        this.userRepository = userRepository;
+        this.addressApiService = addressApiService;
+        this.producer = producer;
     }
 
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @GetMapping("producerMsg")
+    public void getMessageFromClient(@RequestParam("message") String message) {
+        producer.sendMessage("topicCreate", message);
     }
 
     @PostMapping("create")
@@ -44,7 +46,7 @@ public class UserController {
             UUID id = UUID.randomUUID();
             egovUser.setId(id);
             String address = addressApiService.getAddressFromApi();
-
+            producer.sendMessage("topicCreate", egovUser);
             userRepository.create(egovUser,address);
         }
     }
