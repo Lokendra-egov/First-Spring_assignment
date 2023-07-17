@@ -22,7 +22,7 @@ public class KafkaConsumerConfig {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "topicCreate", groupId = "group1")
+    @KafkaListener(topics = "topicCreate")
     public void listenTopicCreate(String receivedMessage) {
         try {
             egovUser user = objectMapper.readValue(receivedMessage, egovUser.class);
@@ -36,7 +36,7 @@ public class KafkaConsumerConfig {
         }
     }
 
-    @KafkaListener(topics = "topicUpdate", groupId = "group1")
+    @KafkaListener(topics = "topicUpdate")
     public void listenTopicUpdate(String receivedMessage) {
         try {
             egovUser user = objectMapper.readValue(receivedMessage, egovUser.class);
@@ -47,7 +47,7 @@ public class KafkaConsumerConfig {
         }
     }
 
-    @KafkaListener(topics = "topicDelete", groupId = "group1")
+    @KafkaListener(topics = "topicDelete")
     public void listenTopicDelete(String receivedMessage) {
         try {
             egovUser user = objectMapper.readValue(receivedMessage, egovUser.class);
