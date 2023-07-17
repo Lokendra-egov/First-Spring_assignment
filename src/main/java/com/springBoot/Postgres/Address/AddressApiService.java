@@ -2,6 +2,7 @@ package com.springBoot.Postgres.Address;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,12 +12,13 @@ import java.util.Map;
 
 @Service
 public class AddressApiService {
+    @Value("${api.address}")
+    private String url;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     public String getAddressFromApi() {
-        String url = "https://random-data-api.com/api/v2/users?size=1";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
         Map<String, Object> data = response.getBody();

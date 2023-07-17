@@ -65,9 +65,7 @@ public class UserRepository {
     }
 
     public void delete(egovUser egovUser) {
-        String sql = "DELETE FROM egov_user WHERE id = ?";
+        String sql = "DELETE FROM egov_user WHERE id::uuid = ?";
         jdbcTemplate.update(sql, egovUser.getId());
     }
-
-
 }
