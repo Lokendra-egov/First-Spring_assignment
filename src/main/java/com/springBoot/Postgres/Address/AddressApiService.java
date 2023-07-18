@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Service
 public class AddressApiService {
-    @Value("${api.address}")
+    @Value("${api.address.url}")
     private String url;
 
     @Autowired

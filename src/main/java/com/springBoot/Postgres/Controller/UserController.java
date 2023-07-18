@@ -8,6 +8,7 @@ import com.springBoot.Postgres.User.egovUser;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.apache.kafka.clients.producer.Producer;
@@ -24,6 +25,15 @@ public class UserController {
     private AddressApiService addressApiService;
     @Autowired
     private KafkaProducerConfig producer;
+
+    @Value("${kafka.topic.create}")
+    private String topicCreate;
+
+    @Value("${kafka.topic.update}")
+    private String topicUpdate;
+
+    @Value("${kafka.topic.delete}")
+    private String topicDelete;
 
     public UserController(UserRepository userRepository, AddressApiService addressApiService, KafkaProducerConfig producer) {
         this.userRepository = userRepository;
