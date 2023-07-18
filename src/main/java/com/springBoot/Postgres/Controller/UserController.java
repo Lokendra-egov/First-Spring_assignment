@@ -41,10 +41,10 @@ public class UserController {
         this.producer = producer;
     }
 
-    @GetMapping("producerMsg")
-    public void getMessageFromClient(@RequestParam("message") String message) {
-        producer.sendMessage("topicCreate", message);
-    }
+//    @GetMapping("producerMsg")
+//    public void getMessageFromClient(@RequestParam("message") String message) {
+//        producer.sendMessage("topicCreate", message);
+//    }
 
     @PostMapping("create")
     public void createUser(@RequestBody List<egovUser> egovUsers) {
@@ -81,12 +81,14 @@ public class UserController {
 
     public void updateUser(@RequestBody List<egovUser> egovUsers) {
         for (egovUser egovUser : egovUsers) {
+            producer.sendMessage("topicUpdate", egovUser);
             userRepository.update(egovUser);
         }
     }
 
     @DeleteMapping("delete")
     public void deleteUser(@RequestBody egovUser egovUser) {
+        producer.sendMessage("topicDelete", egovUser);
         userRepository.delete(egovUser);
     }
 }
