@@ -68,4 +68,10 @@ public class UserRepository {
         String sql = "DELETE FROM egov_user WHERE id::uuid = ?";
         jdbcTemplate.update(sql, egovUser.getId());
     }
+
+//    @Override
+    public List<egovUser> getAllUsers() {
+        String sql = "SELECT * FROM egov_User";
+        return jdbcTemplate.query(sql, new egovUserRowMapper());
+    }
 }

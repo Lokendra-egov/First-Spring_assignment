@@ -1,17 +1,12 @@
 package com.springBoot.Postgres.Controller;
-import com.springBoot.Postgres.Address.Address;
 import com.springBoot.Postgres.Address.AddressApiService;
 import com.springBoot.Postgres.Kafka.KafkaProducerConfig;
 import com.springBoot.Postgres.Repository.UserRepository;
 import com.springBoot.Postgres.User.UserSearchCriteria;
 import com.springBoot.Postgres.User.egovUser;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
-import org.apache.kafka.clients.producer.Producer;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/")
 public class UserController {
+
     @Autowired
     private final UserRepository userRepository;
     @Autowired
@@ -84,6 +80,11 @@ public class UserController {
             producer.sendMessage("topicUpdate", egovUser);
             userRepository.update(egovUser);
         }
+    }
+
+    @GetMapping("_getall")
+    public List<egovUser> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 
     @DeleteMapping("delete")
